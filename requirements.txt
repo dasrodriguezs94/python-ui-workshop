@@ -1,0 +1,5 @@
+selenium                 # Selenium WebDriver for browser automation
+pytest                    # Pytest for running tests
+allure-pytest            # Allure Pytest plugin for generating reports
+webdriver-manager         # Utility for managing browser drivers (Chrome, Firefox, etc.)
+playwright

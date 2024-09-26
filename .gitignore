@@ -1,0 +1,39 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment directory
+.venv/
+env/
+venv/
+
+# Pytest cache and test output
+.pytest_cache/
+.cache/
+
+# Allure results and reports
+allure-results/
+allure-report/
+
+# Playwright browser storage and tracing
+playwright/.cache/
+trace.zip
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# Ignore Jupyter Notebooks checkpoints
+.ipynb_checkpoints/
+
+# IDE and editor-specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
