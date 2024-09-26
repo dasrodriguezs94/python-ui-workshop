@@ -11,11 +11,12 @@ This repository contains a UI automation framework built with Python. It provide
     - [2. Create a Virtual Environment](#2-create-a-virtual-environment)
     - [3. Install Dependencies](#3-install-dependencies)
     - [4. Install Playwright Browsers](#4-install-playwright-browsers)
+  - [Environment Variables](#environment-variables)
   - [Running Tests](#running-tests)
     - [1. Run All Playwright Tests](#1-run-all-playwright-tests)
     - [2. Run All Selenium Tests](#2-run-all-selenium-tests)
     - [3. Running Specific Tests](#3-running-specific-tests)
-    - [Generating Reports](#generating-reports)
+  - [Generating Reports](#generating-reports)
   - [Directory Structure](#directory-structure)
 
 ## Features
@@ -52,6 +53,15 @@ To use Playwright, install the required browsers:
 ```bash
 playwright install
 ```
+## Environment Variables
+
+Before running the tests, create a `.env` file in the root of your project with the following variables:
+
+```ini
+# .env
+USERNAME=your_username
+PASSWORD=your_password
+```
 
 ## Running Tests
 ### 1. Run All Playwright Tests
@@ -73,7 +83,7 @@ Or to run a Selenium Screenplay test:
 ```bash
 pytest --alluredir=allure-results selenium_module/tests/test_login_screenplay_selenium.py
 ```
-### Generating Reports
+## Generating Reports
 After running the tests, you can generate and view the Allure report using:
 ```bash
 allure serve allure-results
