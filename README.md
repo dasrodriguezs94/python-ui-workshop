@@ -31,7 +31,7 @@ This repository contains a UI automation framework built with Python. It provide
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/python-ui-automation.git
+git clone https://github.com/dasrodriguezs94/python-ui-workshop.git
 cd python-ui-automation
 ```
 
