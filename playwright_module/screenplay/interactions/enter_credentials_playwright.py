@@ -1,7 +1,10 @@
+import time
+
+
 class EnterCredentialsPlaywright:
-    EMAIL_INPUT = 'input#username'  # CSS selector for the email/username input
-    PASSWORD_INPUT = 'input#password'  # CSS selector for the password input
-    LOGIN_BUTTON = 'button[type="submit"]'  # CSS selector for the login button
+    EMAIL_INPUT = '#username'  # CSS selector for the email/username input
+    PASSWORD_INPUT = '#password'  # CSS selector for the password input
+    LOGIN_BUTTON = '#login_button'  # CSS selector for the login button
 
     def __init__(self, username, password):
         """Initializes the interaction with the username and password."""
@@ -19,4 +22,5 @@ class EnterCredentialsPlaywright:
         page.locator(self.PASSWORD_INPUT).fill(self.password)
 
         # Click the login button
+        time.sleep(2)
         page.locator(self.LOGIN_BUTTON).click()

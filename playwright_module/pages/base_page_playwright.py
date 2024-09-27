@@ -22,3 +22,6 @@ class BasePagePlaywright:
     def get_title(self):
         """Returns the title of the current page."""
         return self.page.title()
+    
+    def get_text(self, locator):
+        return self.find_element(locator).inner_text()

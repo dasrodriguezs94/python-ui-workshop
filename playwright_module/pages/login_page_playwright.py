@@ -4,7 +4,7 @@ class LoginPagePlaywright(BasePagePlaywright):
     # Locators for the login page
     EMAIL_INPUT = 'input#username'  # CSS selector for the email/username input
     PASSWORD_INPUT = 'input#password'  # CSS selector for the password input
-    LOGIN_BUTTON = 'button[type="submit"]'  # CSS selector for the login button
+    LOGIN_BUTTON = '#login_button'  # CSS selector for the login button
     ERROR_MESSAGE = 'div.error'  # CSS selector for login error message (if applicable)
 
     def login(self, username, password):

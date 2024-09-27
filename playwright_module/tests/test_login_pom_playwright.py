@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 import allure
+from playwright_module.utils.allure_helper_playwright import capture_screenshot
 from playwright_module.utils.driver_factory_playwright import get_playwright_driver
 from playwright_module.pages.login_page_playwright import LoginPagePlaywright
 
@@ -22,6 +23,8 @@ def test_login_pom_playwright():
         login_page.login(username, password)
 
     with allure.step("Verify Login"):
+        capture_screenshot(page)
         assert "My Profile" in login_page.get_title()
+
 
     browser.close()
