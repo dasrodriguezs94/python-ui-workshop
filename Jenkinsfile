@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Docker image
-        DOCKER_IMAGE = 'mcr.microsoft.com/playwright/python:v1.47.0-noble'
+        DOCKER_IMAGE = 'selenium/standalone-chrome'
         // Specify Python virtual environment folder
         USERNAME = "dasrodriguezs"
         PASSWORD = "Daniel622"
@@ -20,7 +20,7 @@ pipeline {
                         -v ${WORKSPACE}:/workspace \
                         -w /workspace \
                         ${DOCKER_IMAGE} \
-                        /bin/bash -c 'pip install -r requirements.txt && pytest --alluredir=allure-results playwright_module/tests/'
+                        /bin/bash -c 'pip install -r requirements.txt && pytest --alluredir=allure-results selenium_module/tests/'
                     """
                 }
             }
