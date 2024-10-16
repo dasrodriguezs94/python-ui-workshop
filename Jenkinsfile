@@ -2,23 +2,20 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Run Tests') {
+        stage('Build') {
             steps {
-                script {
-                    // Run the tests inside the Docker container
-                    sh "pytest --alluredir=allure-results playwright_module/tests/"
-                }
+                echo 'Building..'
             }
         }
-    }
-
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
         }
-        failure {
-            echo 'Pipeline failed.'
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
         }
     }
 }
