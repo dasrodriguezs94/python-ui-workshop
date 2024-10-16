@@ -5,6 +5,8 @@ pipeline {
         PYTHON_ENV = 'venv'  // Virtual environment directory
         ALLURE_RESULTS_DIR = 'allure-results'
         ALLURE_REPORT_DIR = 'allure-report'
+        USERNAME='dasrodriguezs'
+        PASSWORD='Daniel622'
     }
 
     stages {
