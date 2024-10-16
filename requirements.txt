@@ -4,4 +4,3 @@ allure-pytest
 webdriver-manager         
 playwright
 python-dotenv
-python-dotenv
