@@ -24,7 +24,7 @@ pipeline {
                     // Run the Docker container locally without pushing
                     // The pytest command is included in the Dockerfile's CMD
                     sh '''
-                        docker run --rm -v $(pwd):/app ${DOCKER_IMAGE}
+                        docker run -e USERNAME=${USERNAME} -e PASSWORD=${PASSWORD} --rm -v $(pwd):/app ${DOCKER_IMAGE}
                     '''
                 }
             }
