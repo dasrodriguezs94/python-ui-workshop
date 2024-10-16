@@ -20,7 +20,7 @@ pipeline {
                         -v ${WORKSPACE}:/workspace \
                         -w /workspace \
                         ${DOCKER_IMAGE} \
-                        /bin/bash -c 'pip install -r requirements.txt && pytest --alluredir=allure-results selenium_module/tests/'
+                        /bin/bash -c 'apt-get update && apt-get install -y python3 python3-pip && pip install -r requirements.txt && pytest --alluredir=allure-results selenium_module/tests/'
                     """
                 }
             }
@@ -34,6 +34,10 @@ pipeline {
     }
 
     post {
+        always {
+            // Clean up Docker resources after every build
+            sh 'docker system prune -a -f --volumes'
+        }
         success {
             echo 'Pipeline completed successfully!'
         }
