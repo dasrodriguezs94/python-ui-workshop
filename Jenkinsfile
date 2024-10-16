@@ -10,13 +10,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-            steps {
-                // Check out the code from your GitHub repository
-                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'  // Replace with your repository URL
-            }
-        }
-
         stage('Setup Python Environment') {
             steps {
                 script {
