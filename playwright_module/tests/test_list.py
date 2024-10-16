@@ -17,7 +17,7 @@ load_dotenv()
 
 @allure.feature("Create New List")
 def test_create_list_pom_playwright():
-    browser, page = get_playwright_driver(headless=False)
+    browser, page = get_playwright_driver(headless=True)
     
     login_page = LoginPagePlaywright(page)
     login_page.open("https://www.themoviedb.org/login")
@@ -46,7 +46,7 @@ def test_create_list_pom_playwright():
 
 @allure.feature("Create New List")
 def test_create_list_screenplay_playwright():
-    browser, page = get_playwright_driver(headless=False)
+    browser, page = get_playwright_driver(headless=True)
     
     actor = Actor("Tester", page)
 
