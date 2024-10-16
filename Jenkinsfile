@@ -20,7 +20,7 @@ pipeline {
                     }
                 }
                 sh '''
-                    source ${PYTHON_ENV}/bin/activate
+                    . ${PYTHON_ENV}/bin/activate
                     pip install -r requirements.txt
                     playwright install
                 '''
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 // Run the Playwright tests and generate Allure results
                 sh '''
-                    source ${PYTHON_ENV}/bin/activate
+                    . ${PYTHON_ENV}/bin/activate
                     pytest --alluredir=allure-results playwright_module/tests/
                 '''
             }
