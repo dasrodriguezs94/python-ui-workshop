@@ -2,25 +2,36 @@ pipeline {
     agent any
 
     environment {
-        // Docker image
-        DOCKER_IMAGE = 'selenium/standalone-chrome'
-        // Specify Python virtual environment folder
+        // Docker image name (custom image to be built locally)
+        DOCKER_IMAGE = 'custom-selenium-python'
+        // Environment variables for tests
         USERNAME = "dasrodriguezs"
         PASSWORD = "Daniel622"
     }
 
     stages {
 
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build the Docker image locally from the Dockerfile
+                    sh """
+                        docker build -t ${DOCKER_IMAGE}:latest .
+                    """
+                }
+            }
+        }
+
         stage('Run Tests in Docker') {
             steps {
                 script {
-                    // Pull and run the Docker image, and run tests inside the container
+                    // Run the tests inside the locally built Docker container
                     sh """
                         docker run --rm \
                         -v ${WORKSPACE}:/workspace \
                         -w /workspace \
-                        ${DOCKER_IMAGE} \
-                        /bin/bash -c 'apt-get update && apt-get install -y python3 python3-pip && pip install -r requirements.txt && pytest --alluredir=allure-results selenium_module/tests/'
+                        ${DOCKER_IMAGE}:latest \
+                        pytest --alluredir=allure-results selenium_module/tests/
                     """
                 }
             }
@@ -29,16 +40,19 @@ pipeline {
 
     post {
         always {
-            // Clean up Docker resources after every build
-            sh 'docker system prune -a -f --volumes'
             script {
-                // Publish the Allure report regardless of success or failure
+                // Always publish the Allure report regardless of the test outcome
                 allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+
+                // Always clean up Docker resources after every build
+                sh 'docker system prune -a -f --volumes'
             }
         }
+
         success {
             echo 'Pipeline completed successfully!'
         }
+
         failure {
             echo 'Pipeline failed.'
         }
