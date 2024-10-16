@@ -10,16 +10,6 @@ pipeline {
 
     stages {
 
-        pipeline {
-    agent any
-
-    environment {
-        // Specify Python virtual environment folder
-        VENV_DIR = "venv"
-    }
-
-    stages {
-
         stage('Checkout Code') {
             steps {
                 // Check out the code from your GitHub repository
