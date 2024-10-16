@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install -y \
 # Install Python and Playwright dependencies
 RUN pip install --upgrade pip
 RUN pip install pytest pytest-playwright allure-pytest
+RUN pip install -r requirements.txt
 
 # Install Playwright and its browser dependencies
 RUN playwright install --with-deps
