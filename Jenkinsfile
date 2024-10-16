@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { docker { image 'mcr.microsoft.com/playwright/python:v1.47.0-noble' } }
 
     environment {
         // Specify Python virtual environment folder
@@ -10,29 +10,12 @@ pipeline {
 
     stages {
 
-        stage('Setup Python Environment') {
-            steps {
-                script {
-                    // Use bash and set up virtual environment
-                    sh """
-                        python3 -m venv ${VENV_DIR}  # Create virtual environment
-                        source ${VENV_DIR}/bin/activate  # Activate virtual environment
-                        pip install -r requirements.txt  # Install required dependencies
-                        playwright install  # Install Playwright browsers
-                        playwright install-deps
-                    """
-                }
-            }
-        }
-
         stage('Run Tests') {
             steps {
                 script {
+                    sh 'pip install -r requirements.txt'
                     // Use bash and run the tests with pytest
-                    sh """
-                        source ${VENV_DIR}/bin/activate
-                        pytest --alluredir=allure-results playwright_module/tests/
-                    """
+                    sh 'pytest --alluredir=allure-results playwright_module/tests/'
                 }
             }
         }
@@ -46,10 +29,6 @@ pipeline {
     }
 
     post {
-        always {
-            // Clean up virtual environment (optional)
-            sh "rm -rf ${VENV_DIR}"
-        }
         success {
             echo 'Pipeline completed successfully!'
         }
