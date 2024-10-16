@@ -10,11 +10,29 @@ pipeline {
 
     stages {
 
+        pipeline {
+    agent any
+
+    environment {
+        // Specify Python virtual environment folder
+        VENV_DIR = "venv"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                // Check out the code from your GitHub repository
+                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'  // Replace with your repository URL
+            }
+        }
+
         stage('Setup Python Environment') {
             steps {
                 script {
-                    // Install Python and set up virtual environment
+                    // Use bash and set up virtual environment
                     sh """
+                        #!/bin/bash
                         python3 -m venv ${VENV_DIR}  # Create virtual environment
                         source ${VENV_DIR}/bin/activate  # Activate virtual environment
                         pip install -r requirements.txt  # Install required dependencies
@@ -27,8 +45,9 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Activate the virtual environment and run the tests with pytest
+                    // Use bash and run the tests with pytest
                     sh """
+                        #!/bin/bash
                         source ${VENV_DIR}/bin/activate
                         pytest --alluredir=allure-results playwright_module/tests/
                     """
