@@ -1,21 +1,27 @@
 pipeline {
-    agent { docker { image 'mcr.microsoft.com/playwright/python:v1.47.0-noble' } }
+    agent any
 
     environment {
+        // Docker image
+        DOCKER_IMAGE = 'mcr.microsoft.com/playwright/python:v1.47.0-noble'
         // Specify Python virtual environment folder
-        VENV_DIR = "venv"
         USERNAME = "dasrodriguezs"
         PASSWORD = "Daniel622"
     }
 
     stages {
 
-        stage('Run Tests') {
+        stage('Run Tests in Docker') {
             steps {
                 script {
-                    sh 'pip install -r requirements.txt'
-                    // Use bash and run the tests with pytest
-                    sh 'pytest --alluredir=allure-results playwright_module/tests/'
+                    // Pull and run the Docker image, and run tests inside the container
+                    sh """
+                        docker run --rm \
+                        -v ${WORKSPACE}:/workspace \
+                        -w /workspace \
+                        ${DOCKER_IMAGE} \
+                        /bin/bash -c 'pip install -r requirements.txt && pytest --alluredir=allure-results playwright_module/tests/'
+                    """
                 }
             }
         }
@@ -25,7 +31,6 @@ pipeline {
                 allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
             }
         }
-
     }
 
     post {
