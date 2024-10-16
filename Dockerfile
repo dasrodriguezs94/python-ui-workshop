@@ -1,23 +1,50 @@
-# Base image: Selenium standalone with Chrome
-FROM selenium/standalone-chrome:latest
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-# Switch to root to run privileged commands
+# Set environment variables to prevent Python from writing pyc files and buffer output
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Set the user to root (default)
 USER root
 
-# Install Python and pip
-RUN apt-get update && apt-get install -y python3 python3-pip
+# Install necessary system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    xvfb \
+    libnss3 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libxcomposite1 \
+    libxrandr2 \
+    libxdamage1 \
+    libxkbcommon0 \
+    libgbm1 \
+    libpango-1.0-0 \
+    libasound2 \
+    fonts-liberation \
+    libappindicator3-1 \
+    lsb-release \
+    xdg-utils \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set the working directory inside the container
-WORKDIR /workspace
+# Install Python and Playwright dependencies
+RUN pip install --upgrade pip
+RUN pip install pytest pytest-playwright allure-pytest
 
-# Copy the requirements file to the container
-COPY requirements.txt /workspace/
+# Install Playwright and its browser dependencies
+RUN playwright install --with-deps
 
-# Install the Python dependencies
-RUN pip3 install --no-cache-dir -r requirements.txt
+# Set up the working directory
+WORKDIR /app
 
-# Copy the rest of the application files to the container
-COPY . /workspace/
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-# Default command to run the tests
-CMD ["pytest", "--alluredir=allure-results"]
+# Expose ports for Allure reports if needed
+EXPOSE 8000
+
+# By default, the command will be empty and you can provide the command to run tests when you execute the container
+CMD ["pytest", "--alluredir=allure-results", "playwright_module/tests/"]
