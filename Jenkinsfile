@@ -23,6 +23,7 @@ pipeline {
                     . ${PYTHON_ENV}/bin/activate
                     pip install -r requirements.txt
                     playwright install
+                    playwright install-deps
                 '''
             }
         }
