@@ -19,7 +19,7 @@ pipeline {
                         source ${VENV_DIR}/bin/activate  # Activate virtual environment
                         pip install -r requirements.txt  # Install required dependencies
                         playwright install  # Install Playwright browsers
-                        sudo playwright install-deps
+                        playwright install-deps
                     """
                 }
             }
