@@ -15,11 +15,11 @@ pipeline {
                 script {
                     // Use bash and set up virtual environment
                     sh """
-                        #!/bin/bash
                         python3 -m venv ${VENV_DIR}  # Create virtual environment
                         source ${VENV_DIR}/bin/activate  # Activate virtual environment
                         pip install -r requirements.txt  # Install required dependencies
                         playwright install  # Install Playwright browsers
+                        sudo playwright install-deps
                     """
                 }
             }
@@ -30,7 +30,6 @@ pipeline {
                 script {
                     // Use bash and run the tests with pytest
                     sh """
-                        #!/bin/bash
                         source ${VENV_DIR}/bin/activate
                         pytest --alluredir=allure-results playwright_module/tests/
                     """
