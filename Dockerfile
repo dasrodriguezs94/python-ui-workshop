@@ -8,6 +8,9 @@ ENV PYTHONUNBUFFERED=1
 # Set the user to root (default)
 USER root
 
+# Copy the requirements.txt file into the container
+COPY requirements.txt ./
+
 # Install necessary system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
@@ -33,7 +36,7 @@ RUN apt-get update && apt-get install -y \
 # Install Python and Playwright dependencies
 RUN pip install --upgrade pip
 RUN pip install pytest pytest-playwright allure-pytest
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Playwright and its browser dependencies
 RUN playwright install --with-deps
