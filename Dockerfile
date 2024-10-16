@@ -1,6 +1,9 @@
 # Base image: Selenium standalone with Chrome
 FROM selenium/standalone-chrome:latest
 
+# Switch to root to run privileged commands
+USER root
+
 # Install Python and pip
 RUN apt-get update && apt-get install -y python3 python3-pip
 
