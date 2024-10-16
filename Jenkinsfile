@@ -25,18 +25,16 @@ pipeline {
                 }
             }
         }
-
-        stage('Publish Allure Report') {
-            steps {
-                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-            }
-        }
     }
 
     post {
         always {
             // Clean up Docker resources after every build
             sh 'docker system prune -a -f --volumes'
+            script {
+                // Publish the Allure report regardless of success or failure
+                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+            }
         }
         success {
             echo 'Pipeline completed successfully!'
