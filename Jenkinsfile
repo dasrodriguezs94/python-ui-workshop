@@ -1,21 +1,59 @@
 pipeline {
     agent any
 
+    environment {
+        // Specify Python virtual environment folder
+        VENV_DIR = "venv"
+        USERNAME = "dasrodriguezs"
+        PASSWORD = "Daniel622"
+    }
+
     stages {
-        stage('Build') {
+
+        stage('Setup Python Environment') {
             steps {
-                echo 'Building..'
+                script {
+                    // Install Python and set up virtual environment
+                    sh """
+                        python3 -m venv ${VENV_DIR}  # Create virtual environment
+                        source ${VENV_DIR}/bin/activate  # Activate virtual environment
+                        pip install -r requirements.txt  # Install required dependencies
+                        playwright install  # Install Playwright browsers
+                    """
+                }
             }
         }
-        stage('Test') {
+
+        stage('Run Tests') {
             steps {
-                echo 'Testing..'
+                script {
+                    // Activate the virtual environment and run the tests with pytest
+                    sh """
+                        source ${VENV_DIR}/bin/activate
+                        pytest --alluredir=allure-results playwright_module/tests/
+                    """
+                }
             }
         }
-        stage('Deploy') {
+
+        stage('Publish Allure Report') {
             steps {
-                echo 'Deploying....'
+                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
             }
+        }
+
+    }
+
+    post {
+        always {
+            // Clean up virtual environment (optional)
+            sh "rm -rf ${VENV_DIR}"
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed.'
         }
     }
 }
